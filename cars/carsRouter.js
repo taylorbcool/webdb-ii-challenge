@@ -1,4 +1,6 @@
 const express = require('express')
+const validateCarId = require('../middleware/validateCarId')
+const validateCar = require('../middleware/validateCar')
 const Cars = require('../data/helpers/carModel')
 const router = express.Router();
 
@@ -12,7 +14,7 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:id", validateCarId, (req, res) => {
   const id = req.params.id;
   Cars.get(id)
     .then(car => {
@@ -23,7 +25,7 @@ router.get("/:id", (req, res) => {
     });
 });
 
-router.post("/", (req, res) => {
+router.post("/", validateCar, (req, res) => {
   const carData = req.body;
   Cars.insert(carData)
     .then(car => {
